@@ -1,11 +1,15 @@
 import 'package:cabto_app/components/my_button.dart';
 import 'package:cabto_app/utils/cosnt/cosnts.dart';
 import 'package:cabto_app/view/search_page.dart';
+import 'package:cabto_app/view_model/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RentalCabTab extends StatefulWidget {
-  const RentalCabTab({super.key});
+  const RentalCabTab({super.key, required this.onTap});
+
+  final Function() onTap;
 
   @override
   State<RentalCabTab> createState() => _RentalCabTabState();
@@ -13,7 +17,6 @@ class RentalCabTab extends StatefulWidget {
 
 class _RentalCabTabState extends State<RentalCabTab> {
   final _controller = TextEditingController();
-
   @override
   void dispose() {
     _controller.dispose();
@@ -95,7 +98,7 @@ class _RentalCabTabState extends State<RentalCabTab> {
                     ),
                   )),
               MyButton(
-                onTap: () {},
+                onTap: widget.onTap,
                 size: size,
                 title: 'Next',
               )

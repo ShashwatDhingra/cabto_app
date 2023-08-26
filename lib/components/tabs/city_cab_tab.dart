@@ -1,11 +1,15 @@
 import 'package:cabto_app/components/my_button.dart';
 import 'package:cabto_app/utils/cosnt/cosnts.dart';
 import 'package:cabto_app/view/search_page.dart';
+import 'package:cabto_app/view_model/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CityCabTab extends StatefulWidget {
-  const CityCabTab({super.key});
+  const CityCabTab({super.key, required this.onTap});
+
+  final Function() onTap;
 
   @override
   State<CityCabTab> createState() => _CityCabTabState();
@@ -59,7 +63,7 @@ class _CityCabTabState extends State<CityCabTab> {
                           fillColor: grey.withOpacity(0.1)),
                     ),
                   )),
-                  MyButton(onTap: () {}, size: size, title: 'Next',)
+                  MyButton(onTap: widget.onTap , size: size, title: 'Next',)
             ],
           ),
         ),

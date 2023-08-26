@@ -12,11 +12,14 @@ class MyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Container(
-        decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(30)),
-        width: size.width * 0.9,
-        height: size.height * 0.07,
-        child: Center(child: Text(title, style: const TextStyle(color: white, fontSize: 18),)),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(30)),
+          width: size.width * 0.9,
+          height: size.height * 0.07,
+          child: Center(child: Text(title, style: const TextStyle(color: white, fontSize: 18),)),
+        ),
       ),
     );
   }

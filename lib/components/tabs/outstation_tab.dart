@@ -4,17 +4,40 @@ import 'package:cabto_app/view/search_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 import '../../view_model/provider.dart';
 
 class OutStationTab extends StatefulWidget {
-  const OutStationTab({super.key});
+  const OutStationTab({super.key, required this.onTap});
+
+  final Function() onTap;
 
   @override
   State<OutStationTab> createState() => _OutStationTabState();
 }
 
 class _OutStationTabState extends State<OutStationTab> {
+  String? _returnDate;
+
+  Future<String> _showDatePicker() async {
+    DateTime? _selectedDateTime = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime(
+            DateTime.now().year, DateTime.now().month + 1, DateTime.now().day));
+
+    if (_selectedDateTime != null) {
+      // Using Date Formatter to Format Date
+      DateFormat dateFormat = DateFormat.MMMMd();
+      String formattedDate = dateFormat.format(_selectedDateTime);
+      return formattedDate;
+    } else {
+      return _returnDate == null ? 'Return Date' : _returnDate!;
+    }
+  }
+
   final _controller = TextEditingController();
 
   @override
@@ -76,10 +99,11 @@ class _OutStationTabState extends State<OutStationTab> {
                                 Row(
                                   children: [
                                     InputChip(
-                                      selectedColor: grey.withOpacity(0.1),
+                                      backgroundColor: Colors.white,
+                                      selectedColor: grey.withOpacity(0.2),
                                       label: Text("One-way"),
-                                      onSelected: (value) {
-                                        myProvider.toogle(1);
+                                      onPressed: () {
+                                        myProvider.toogleOutstationChip(1);
                                       },
                                       selected:
                                           myProvider.outStation_selected_chip ==
@@ -91,10 +115,10 @@ class _OutStationTabState extends State<OutStationTab> {
                                       width: 10,
                                     ),
                                     InputChip(
-                                      selectedColor: grey.withOpacity(0.1),
+                                      selectedColor: grey.withOpacity(0.2),
                                       label: Text("Two-way"),
-                                      onSelected: (value) {
-                                        myProvider.toogle(2);
+                                      onPressed: () {
+                                        myProvider.toogleOutstationChip(2);
                                       },
                                       selected:
                                           myProvider.outStation_selected_chip ==
@@ -104,19 +128,31 @@ class _OutStationTabState extends State<OutStationTab> {
                                     )
                                   ],
                                 ),
-                                SizedBox(height: 10),
-                                myProvider.outStation_selected_chip == 2 ? Container(
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      color: Colors.grey.withOpacity(0.2)),
-                                  width: size.width * 0.9,
-                                  height: size.height * 0.07,
-                                  child: Text(
-                                    'Return Data',
-                                    style: TextStyle(fontSize: 18),
-                                  ),
-                                ) : Container() // This empty container means nothing to show
+                                const SizedBox(height: 10),
+                                myProvider.outStation_selected_chip == 2
+                                    ? GestureDetector(
+                                        onTap: () async {
+                                          _returnDate = await _showDatePicker();
+                                          setState(() {});
+                                        },
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              color:
+                                                  Colors.grey.withOpacity(0.2)),
+                                          width: size.width * 0.9,
+                                          height: size.height * 0.07,
+                                          child: Text(
+                                            _returnDate == null
+                                                ? 'Return Date'
+                                                : _returnDate!,
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                        ),
+                                      )
+                                    : Container() // This empty container means nothing to show
                               ],
                             );
                           },
@@ -125,7 +161,7 @@ class _OutStationTabState extends State<OutStationTab> {
                     ),
                   )),
               MyButton(
-                onTap: () {},
+                onTap: widget.onTap,
                 size: size,
                 title: 'Next',
               )
