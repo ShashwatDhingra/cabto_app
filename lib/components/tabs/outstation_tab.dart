@@ -1,5 +1,5 @@
 import 'package:cabto_app/components/my_button.dart';
-import 'package:cabto_app/utils/cosnt/cosnts.dart';
+import 'package:cabto_app/services/utils/cosnt/cosnts.dart';
 import 'package:cabto_app/view/search_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +9,7 @@ import 'package:intl/intl.dart';
 import '../../view_model/provider.dart';
 
 class OutStationTab extends StatefulWidget {
-  const OutStationTab({super.key, required this.onTap});
-
-  final Function() onTap;
-
+  const OutStationTab({super.key});
   @override
   State<OutStationTab> createState() => _OutStationTabState();
 }
@@ -67,28 +64,29 @@ class _OutStationTabState extends State<OutStationTab> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextField(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SearchPage(),
-                                ));
-                          },
-                          keyboardType: TextInputType.streetAddress,
-                          decoration: InputDecoration(
-                              labelStyle: TextStyle(color: black),
-                              label: Text('Destination'),
-                              prefixIcon: Icon(CupertinoIcons.search),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide.none),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide.none),
-                              filled: true,
-                              fillColor: grey.withOpacity(0.1)),
-                        ),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SearchPage(),
+                                  ));
+                            },
+                            child: Container(
+                                alignment: Alignment.center,
+                                width: size.width * 0.9,
+                                height: size.height * 0.07,
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[400],
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: const ListTile(
+                                    leading: Icon(
+                                      Icons.search,
+                                      color: black,
+                                    ),
+                                    title: Text('Enter Destination',
+                                        style: const TextStyle(
+                                            fontSize: 18, color: black))))),
                         SizedBox(
                           height: 20,
                         ),
@@ -160,11 +158,6 @@ class _OutStationTabState extends State<OutStationTab> {
                       ],
                     ),
                   )),
-              MyButton(
-                onTap: widget.onTap,
-                size: size,
-                title: 'Next',
-              )
             ],
           ),
         ),

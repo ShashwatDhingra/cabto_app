@@ -1,10 +1,15 @@
 import 'package:cabto_app/components/car_card.dart';
 import 'package:cabto_app/components/my_button.dart';
-import 'package:cabto_app/utils/cosnt/cosnts.dart';
+import 'package:cabto_app/models/cab_option.dart';
+import 'package:cabto_app/services/cab_option_services.dart';
+import 'package:cabto_app/services/utils/cosnt/cosnts.dart';
 import 'package:cabto_app/view_model/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import '../../services/utils/utils.dart';
 
 class ComponenetTwo extends StatefulWidget {
   const ComponenetTwo({super.key});
@@ -26,9 +31,9 @@ class _ComponenetTwoState extends State<ComponenetTwo> {
   }
 
   // Adding 10 minutes to the date just for show fake reality of pickup time
-  DateTime incrementTime()
-  {
-    return DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, DateTime.now().hour, DateTime.now().minute + 10);
+  DateTime incrementTime() {
+    return DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, DateTime.now().hour, DateTime.now().minute + 10);
   }
 
   @override
@@ -75,15 +80,31 @@ class _ComponenetTwoState extends State<ComponenetTwo> {
           child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Consumer<MyProvider>(
-          builder: (context, myProvider, child) => ListView.builder(
-            itemBuilder: (context, index) => GestureDetector(
-                onTap: () {
-                  // To Select Car
-                  myProvider.toogleSelectedCar(index);
+          builder: (context, myProvider, child) {
+            return FutureBuilder(
+                builder:
+                    (context, AsyncSnapshot<List<CabOptionModel>> snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(child: SpinKitFadingCircle(color: grey,));
+                  } else {
+                    return ListView.builder(
+                      itemBuilder: (context, index) => GestureDetector(
+                          onTap: () {
+                            // To Select Car
+                            myProvider.toogleSelectedCar(index);
+                          },
+                          child: CarCard(
+                            category: snapshot.data![index].taxiCategory.toString(),
+                            iamgeUrl: snapshot.data![index].taxiImage.toString(),
+                            info: snapshot.data![index].taxiInfo.toString(),
+                            price: snapshot.data![index].price.toString(),
+                              selected: myProvider.selectedCarIndex == index)),
+                      itemCount: snapshot.data!.length,
+                    );
+                  }
                 },
-                child: CarCard(selected: myProvider.selectedCarIndex == index)),
-            itemCount: 10,
-          ),
+                future: CabOptionService().getCabOptions());
+          },
         ),
       )),
       Consumer<MyProvider>(

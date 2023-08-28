@@ -2,7 +2,8 @@ import 'package:cabto_app/components/book_page_body.dart';
 import 'package:flutter/material.dart';
 
 class BookPage extends StatefulWidget {
-  const BookPage({super.key});
+  const BookPage({super.key, required this.destination});
+  final String destination;
 
   @override
   State<BookPage> createState() => _BookPageState();
@@ -14,7 +15,7 @@ class _BookPageState extends State<BookPage> {
     return ScrollConfiguration(
       //* To hide the Scroll Bar. Thats lokking shaby when scroll the available cars list,
       behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-      child: Scaffold(body: BookPageBody()),
+      child: Scaffold(body: BookPageBody(destination: widget.destination,)),
     );
   }
 }

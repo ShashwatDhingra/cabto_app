@@ -1,7 +1,10 @@
+import 'package:cabto_app/services/utils/app_url.dart';
 import 'package:flutter/material.dart';
 
 class ComponentOne extends StatelessWidget {
-  const ComponentOne({super.key});
+  const ComponentOne({super.key, required this.destination});
+
+  final String destination;
 
   @override
   Widget build(BuildContext context) {
@@ -9,36 +12,36 @@ class ComponentOne extends StatelessWidget {
       children: [
         Row(children: [
           Image.network(
-            'https://media.istockphoto.com/id/1131013367/vector/destination-icon-with-pin-location-from-start-to-end-destination.jpg?s=612x612&w=0&k=20&c=Yfd8X4TkdK8CfbR7sizPz_j0MW0qMCo5e1Iy3w4-IIA=',
+            MARKERS_IMAGE_LINK,
             width: 70,
             height: 70,
           ),
-          const Expanded(
+           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Source Location',
                   style: TextStyle(color: Colors.grey),
                 ),
-                Text(
-                  'Delhi',
+                const Text(
+                  'Your Location',
                   style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 16),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 32.0),
+                const Padding(
+                  padding: EdgeInsets.only(right: 32.0),
                   child: Divider(),
                 ),
-                Text(
+                const Text(
                   'Source Location',
                   style: TextStyle(color: Colors.grey),
                 ),
                 Text(
-                  'Dubai',
-                  style: TextStyle(
+                  destination,
+                  style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 16),
@@ -47,7 +50,7 @@ class ComponentOne extends StatelessWidget {
             ),
           )
         ]),
-        Divider()
+        const Divider()
       ],
     );
   }

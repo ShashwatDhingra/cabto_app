@@ -1,4 +1,5 @@
 import 'package:cabto_app/components/cab_options_tab.dart';
+import 'package:cabto_app/components/map_view.dart';
 import 'package:cabto_app/view_model/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +18,7 @@ class _HomePageBodyState extends State<HomePageBody>
     final provider = Provider.of<MyProvider>(context);
     return Column(
       children: [
-        Expanded(flex: provider.ratio[0], child: Container(color: Colors.deepPurple,)),
+        Expanded(flex: provider.ratio[0], child: MapView()),
         Expanded(flex: provider.ratio[1], child: CabOptionTab())
       ],
     );

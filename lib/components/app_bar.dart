@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../utils/cosnt/cosnts.dart';
+import '../services/utils/cosnt/cosnts.dart';
 
 final myAppBar = AppBar(
     backgroundColor: yellow,

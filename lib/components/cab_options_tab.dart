@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:cabto_app/components/tabs/city_cab_tab.dart';
 import 'package:cabto_app/components/tabs/outstation_tab.dart';
 import 'package:cabto_app/components/tabs/rental_cab_tab.dart';
-import 'package:cabto_app/utils/cosnt/cosnts.dart';
+import 'package:cabto_app/services/utils/cosnt/cosnts.dart';
 import 'package:cabto_app/view/book_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,11 +18,6 @@ class CabOptionTab extends StatefulWidget {
 }
 
 class _CabOptionTabState extends State<CabOptionTab> {
-
-  void onButtonTap()
-  {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => BookPage(),));
-  }
 
   @override
   void initState() {
@@ -40,9 +35,9 @@ class _CabOptionTabState extends State<CabOptionTab> {
             onTap: (value) {
               // Conditions for setting ratio of element on screen
               if (value == 0) {
-                provider.toogleRatio([5, 5]);
+                provider.toogleRatio([7, 2]);
               } else {
-                provider.toogleRatio([7, 8]);
+                provider.toogleRatio([7, 5]);
               }
             },
             unselectedLabelColor: Colors.grey,
@@ -75,7 +70,7 @@ class _CabOptionTabState extends State<CabOptionTab> {
           ),
           Expanded(
               child: TabBarView(
-            children: [CityCabTab(onTap: onButtonTap), RentalCabTab(onTap: onButtonTap), OutStationTab(onTap: onButtonTap,)],
+            children: [CityCabTab(), RentalCabTab(), OutStationTab()],
           ))
         ]));
   }
